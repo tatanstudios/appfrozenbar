@@ -7,12 +7,12 @@ const USOS: { titulo: string; texto: string; ejemplos: string[] }[] = [
   {
     titulo: '1. Vender fiado (a crédito)',
     texto: 'Al revés que con los proveedores: aquí el cliente te debe a ti. Con límite y días de crédito se cobra con la forma de pago Crédito, el ticket sale para la firma, la deuda queda en Cuentas por cobrar y el sistema no le deja pasar su límite.',
-    ejemplos: ['Un restaurante que se lleva 200 panes diarios y paga cada viernes', 'Una oficina o escuela que pide pan y café para reuniones y paga a fin de mes', 'Un vecino de confianza que paga cada quincena'],
+    ejemplos: ['Una cafetería que se lleva 50 bobbas diarias y paga cada viernes', 'Una oficina o escuela que pide bobbas y desayunos para reuniones y paga a fin de mes', 'Un vecino de confianza que paga cada quincena'],
   },
   {
     titulo: '2. Pedidos especiales (encargos)',
     texto: 'En Pedidos especiales queda su teléfono para avisarle o confirmar, el anticipo y la fecha de entrega. En su ficha se ven todos los encargos que ha hecho.',
-    ejemplos: ['Pastel de cumpleaños para el sábado con $10 de anticipo', '500 panes para una boda o un velorio'],
+    ejemplos: ['Catering de 30 bobbas para el sábado con $10 de anticipo', '100 crepas para un evento de la escuela'],
   },
   {
     titulo: '3. Ticket a su nombre',
@@ -30,7 +30,7 @@ export function AyudaClientes() {
   return (
     <ScrollView style={e.contenedor} contentContainerStyle={e.caja}>
       <Text style={e.texto}>
-        Los clientes son <Text style={{ fontWeight: '700' }}>opcionales</Text>. Al que entra, compra 5 panes y se va, se le vende normal en Venta rápida sin elegir a nadie (el ticket sale como «Consumidor Final»). Registra solo a quien te sirve tenerlo guardado:
+        Los clientes son <Text style={{ fontWeight: '700' }}>opcionales</Text>. Al que entra, compra 2 bobbas y se va, se le vende normal en Venta rápida sin elegir a nadie (el ticket sale como «Consumidor Final»). Registra solo a quien te sirve tenerlo guardado:
       </Text>
       {USOS.map((u) => (
         <View key={u.titulo} style={e.tarjeta}>

@@ -1,4 +1,4 @@
-// Recetas: de producción (pan) y las que se descuentan al vender (americano, desayuno), con su costo y margen
+// Recetas: de producción (masa de crepa) y las que se descuentan al vender (americano, desayuno), con su costo y margen
 import { router, type Href } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -109,13 +109,13 @@ export function RecetasCatalogo() {
           </Pressable>
           {verAyudaVersion && (
             <View style={e.ayudaCaja}>
-            <Text style={e.ayudaTexto}>El sistema guarda el historial de cada receta para que el costo de lo que ya se horneó no cambie después.</Text>
+            <Text style={e.ayudaTexto}>El sistema guarda el historial de cada receta para que el costo de lo que ya se preparó no cambie después.</Text>
             <Text style={e.ayudaTexto}><Text style={{ fontWeight: '700' }}>Al crearla:</Text> la receta queda como versión 1.</Text>
             <Text style={e.ayudaTexto}><Text style={{ fontWeight: '700' }}>Al editarla sin haberla usado:</Text> se corrige ahí mismo y sigue siendo la misma versión.</Text>
             <Text style={e.ayudaTexto}><Text style={{ fontWeight: '700' }}>Al editarla después de usarla:</Text> se crea la versión siguiente (2, 3…) y la anterior queda en el historial, con lo que se gastó y su costo de entonces.</Text>
               <View style={e.ayudaEjemplo}>
-                <Text style={[e.ayudaTexto, { fontWeight: '700' }]}>Ejemplo: Pan francés</Text>
-                <Text style={e.ayudaTexto}>Ayer horneaste 100 panes con la versión 1 (10 lb de harina). Hoy cambias la receta a 11 lb: se crea la versión 2 y lo que hornees desde ahora usa 11 lb. La producción de ayer sigue mostrando 10 lb y su costo de ayer.</Text>
+                <Text style={[e.ayudaTexto, { fontWeight: '700' }]}>Ejemplo: Masa de crepa</Text>
+                <Text style={e.ayudaTexto}>Ayer preparaste 100 crepas con la versión 1 (10 lb de harina). Hoy cambias la receta a 11 lb: se crea la versión 2 y lo que prepares desde ahora usa 11 lb. La producción de ayer sigue mostrando 10 lb y su costo de ayer.</Text>
               </View>
               <Text style={e.ayudaTexto}><Text style={{ fontWeight: '700' }}>Volver atrás:</Text> si el cambio salió mal, abre la receta y en Versiones toca «Usar esta» en la anterior. Solo una versión está activa a la vez.</Text>
             </View>
@@ -178,7 +178,7 @@ function FormReceta({ receta, catalogo, onCerrar, onListo }: { receta: op.Receta
     return t ? catalogo.productos.filter((p) => sinTildes(p.nombre).includes(t)).slice(0, 8) : [];
   }, [buscarProducto, catalogo.productos]);
   // Ingredientes: todo lo que lleva inventario (sin inventario no hay nada que descontar).
-  // Primero materias primas y empaques; después horneados y reventa (pan del desayuno, lata del combo)
+  // Primero materias primas y empaques; después preparados y reventa (sándwich del desayuno, lata del combo)
   const insumosBuscados = useMemo(() => {
     const t = sinTildes(buscarInsumo.trim());
     if (!t) return [];
@@ -241,7 +241,7 @@ function FormReceta({ receta, catalogo, onCerrar, onListo }: { receta: op.Receta
         </View>
       ) : (
         <>
-          <TextInput style={e.buscar} value={buscarProducto} onChangeText={setBuscarProducto} placeholder="Buscar el producto (Pan francés, Americano...)" placeholderTextColor={C.tenue} autoFocus />
+          <TextInput style={e.buscar} value={buscarProducto} onChangeText={setBuscarProducto} placeholder="Buscar el producto (Masa de crepa, Americano...)" placeholderTextColor={C.tenue} autoFocus />
           {productosBuscados.map((p) => (
             <Pressable key={p.id} style={e.resultado} onPress={() => { setProductoId(p.id); setBuscarProducto(''); if (!p.controla_stock) setRendimiento('1'); }}>
               <Text style={e.texto}>{p.nombre}</Text><Text style={e.suave}>{p.controla_stock ? 'con inventario' : 'sin inventario'}</Text>

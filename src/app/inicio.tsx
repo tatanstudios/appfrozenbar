@@ -25,7 +25,7 @@ const MODULOS: Modulo[] = [
   { titulo: 'Compras', detalle: 'Compras, proveedores y pagos', ruta: '/compras', color: C.marca, permisos: ['compras.gestionar', 'compras.ver', 'proveedores.gestionar', 'cuentas_pagar.gestionar'] },
   { titulo: 'Gastos', detalle: 'Luz, gas, planilla y otros', ruta: '/gastos', color: C.aviso, permisos: ['gastos.registrar', 'gastos.ver', 'gastos.categorias'] },
   { titulo: 'Inventario', detalle: 'Existencias, entradas, conteo físico y kárdex', ruta: '/inventario', color: C.libre, permisos: ['inventario.ver'], sinTurno: true },
-  { titulo: 'Producción', detalle: 'Lo horneado, las mermas y el resumen', ruta: '/produccion', color: '#B45309', permisos: ['produccion.registrar', 'produccion.ver', 'mermas.registrar'] },
+  { titulo: 'Producción', detalle: 'Lo preparado, las mermas y el resumen', ruta: '/produccion', color: '#B45309', permisos: ['produccion.registrar', 'produccion.ver', 'mermas.registrar'] },
   { titulo: 'Catálogo', detalle: 'Productos, recetas, extras y categorías', ruta: '/catalogo' as Href, color: '#4338CA', permisos: ['productos.gestionar', 'productos.ver', 'recetas.gestionar', 'mesas.configurar', 'catalogos.gestionar'], sinTurno: true },
   { titulo: 'Ajustes', detalle: 'Mesas y cocina, negocio, impresoras, usuarios y permisos', ruta: '/ajustes' as Href, color: '#4B5563', permisos: ['mesas.configurar', 'configuracion.gestionar', 'impresoras.gestionar', 'usuarios.gestionar', 'roles.gestionar'], sinTurno: true },
   { titulo: 'Resumen del día', detalle: 'Ventas, lo más vendido y alertas', ruta: '/resumen', color: '#0F766E', permisos: ['dashboard.ver', 'reportes.ver'], sinTurno: true },

@@ -8,10 +8,10 @@ export type AjustesClase = { clase: string; se_vende: boolean; controla_stock: b
 
 const TIPOS: { titulo: string; queEs: string; movimiento: string; ejemplos: string; ajustes: AjustesClase }[] = [
   {
-    titulo: 'Producto terminado · se hornea y se guarda',
+    titulo: 'Producto terminado · se prepara y se guarda',
     queEs: 'Lo que el negocio hace por adelantado y se vende por pieza.',
     movimiento: 'Sube al registrar la producción y baja al venderlo.',
-    ejemplos: 'Pan francés, concha, pastel tres leches (porción)',
+    ejemplos: 'Crepa de Nutella, bobba de taro (16 oz), waffle con fruta',
     ajustes: { clase: 'producto_terminado', se_vende: true, controla_stock: true, permite_fraccion: false },
   },
   {
@@ -32,20 +32,20 @@ const TIPOS: { titulo: string; queEs: string; movimiento: string; ejemplos: stri
     titulo: 'Materia prima',
     queEs: 'Ingredientes para hacer los productos. No se venden solos.',
     movimiento: 'Sube con la compra y baja con las recetas (al producir o al vender un plato).',
-    ejemplos: 'Harina (lb), azúcar (g), leche (ml), huevo (u), café molido (g)',
+    ejemplos: 'Harina (lb), tapioca (g), leche (ml), huevo (u), té negro (g)',
     ajustes: { clase: 'materia_prima', se_vende: false, controla_stock: true, permite_fraccion: true },
   },
   {
     titulo: 'Empaque',
     queEs: 'Lo que acompaña al producto pero no se come.',
     movimiento: 'Sube con la compra y baja con las recetas o con ajustes.',
-    ejemplos: 'Vaso desechable, tapa, bolsa, caja para pastel',
+    ejemplos: 'Vaso desechable, tapa, popote ancho, bolsa, caja para crepa',
     ajustes: { clase: 'empaque', se_vende: false, controla_stock: true, permite_fraccion: false },
   },
 ];
 
 const PREGUNTAS = [
-  '¿Lo hacemos o preparamos nosotros? → Producto terminado (con inventario si se hornea antes; sin inventario si se prepara al momento)',
+  '¿Lo hacemos o preparamos nosotros? → Producto terminado (con inventario si se prepara antes; sin inventario si se prepara al momento)',
   '¿Lo compramos y lo vendemos tal cual? → Reventa',
   '¿Es un ingrediente para hacer otra cosa? → Materia prima',
   '¿Es un recipiente o envoltura? → Empaque',

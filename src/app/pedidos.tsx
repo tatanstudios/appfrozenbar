@@ -21,7 +21,7 @@ import { MetodoPago } from '@/lib/tipos';
 type Estado = 'abierto' | 'cobrado' | 'cancelado';
 const ESTADOS: [Estado, string][] = [['abierto', 'Pendientes'], ['cobrado', 'Entregados'], ['cancelado', 'Cancelados']];
 
-// Encargos (pasteles, pedidos grandes): fecha de entrega, anticipo y lo que falta cobrar al entregar
+// Encargos (catering, pedidos grandes): fecha de entrega, anticipo y lo que falta cobrar al entregar
 export default function PedidosEspeciales() {
   const [estado, setEstado] = useState<Estado>('abierto');
   const [verAyuda, setVerAyuda] = useState(false);

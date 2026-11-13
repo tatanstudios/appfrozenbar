@@ -22,7 +22,7 @@ const redondear = (v: number) => Math.round(v * 1000) / 1000;
 const conUnidad = (v: number, u?: string | null) => `${cantidad(v)}${u ? ` ${u}` : ''}`;
 const dinero4 = (v: number) => `$${(Math.round(v * 10000) / 10000).toFixed(4)}`;
 
-// Lo que se horneó o cocinó, lo que no se vendió (mermas) y el resumen del periodo: lo mismo que la web
+// Lo que se preparó o cocinó, lo que no se vendió (mermas) y el resumen del periodo: lo mismo que la web
 export default function Produccion() {
   const { puede } = useSesion();
   const { receta } = useLocalSearchParams<{ receta?: string }>();
@@ -175,7 +175,7 @@ function Producir({ recetaInicial }: { recetaInicial: number | null }) {
         <View style={e.bloque}>
           <Text style={e.etiqueta}>¿Qué se produjo?</Text>
           {recetas.length > 0 && (
-            <TextInput style={e.buscar} value={buscar} onChangeText={setBuscar} placeholder="Buscar producto (concha, pan...)"
+            <TextInput style={e.buscar} value={buscar} onChangeText={setBuscar} placeholder="Buscar producto (crepa, bobba...)"
               placeholderTextColor={C.tenue} autoCorrect={false} />
           )}
           <View style={e.opciones}>

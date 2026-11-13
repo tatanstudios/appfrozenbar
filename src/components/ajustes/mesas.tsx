@@ -69,7 +69,7 @@ export function MesasCocina() {
 
       <View style={e.bloque}>
         <Text style={e.titulo}>¿A qué área va cada categoría?</Text>
-        <Text style={e.suave}>Define en qué comanda sale cada producto. Lo que se entrega directo (pan y postres de vitrina, bebidas embotelladas) va en «Sin comanda»: solo sale el ticket de venta.</Text>
+        <Text style={e.suave}>Define en qué comanda sale cada producto. Lo que se entrega directo (sándwiches y postres de vitrina, bebidas embotelladas) va en «Sin comanda»: solo sale el ticket de venta.</Text>
         {(areas?.categorias ?? []).map((c) => (
           <View key={c.id} style={e.filaCategoria}>
             <Text style={[e.nombre, { minWidth: 160 }]}>{c.nombre}</Text>

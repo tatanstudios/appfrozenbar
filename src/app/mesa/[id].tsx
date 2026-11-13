@@ -289,7 +289,7 @@ export default function TerminalMesa() {
     if (!res) return;
     if (itemIds) setSeleccion([]);
     const imp = res.impresion;
-    // Lo que se entrega directo (Coca-Cola, pan de vitrina: «Imprime comanda» apagado) no genera comanda
+    // Lo que se entrega directo (Coca-Cola, postre de vitrina: «Imprime comanda» apagado) no genera comanda
     if (res.comandas.length === 0) avisar('Entregado sin comanda', `${res.message ?? 'Productos entregados (no pasan por cocina)'}. Para que salga en la comanda, enciende «Imprime comanda» en el producto.`);
     else if (imp.sin_impresora) avisar('Comanda registrada', 'No hay impresora configurada: imprímela desde la web o configura la impresora del área.');
     else if (imp.errores.length) avisar('Algunas comandas no se imprimieron', imp.errores.join('\n'));

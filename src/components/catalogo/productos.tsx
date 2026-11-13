@@ -163,7 +163,7 @@ function FormProducto({ producto, usados = [], onCerrar, onGuardado }: { product
           <Boton titulo="Guardar producto" cargando={guardando} deshabilitado={!!error} onPress={guardar} />
         </View>
       }>
-      <Campo etiqueta="Nombre *" value={d.nombre} onChangeText={(t) => cambiar({ nombre: t })} placeholder="Pan francés" maxLength={300} />
+      <Campo etiqueta="Nombre *" value={d.nombre} onChangeText={(t) => cambiar({ nombre: t })} placeholder="Crepa de Nutella" maxLength={300} />
 
       <View style={e.claseCabecera}>
         <Seccion titulo="Clase" />
@@ -197,7 +197,7 @@ function FormProducto({ producto, usados = [], onCerrar, onGuardado }: { product
       <Interruptor titulo="Consumo interno" detalle="Comida del personal y cortesías: precio $0, no entra a la caja y descuenta su receta" valor={d.consumo_interno}
         onCambiar={(v) => cambiar({ consumo_interno: v })} />
       {(d.se_vende || d.consumo_interno) && (
-        <Interruptor titulo="Imprime comanda" detalle="Apágalo si se entrega directo (coca en lata, pan de vitrina): no manda comanda a cocina ni a barra"
+        <Interruptor titulo="Imprime comanda" detalle="Apágalo si se entrega directo (coca en lata, postre de vitrina): no manda comanda a cocina ni a barra"
           valor={d.imprime_comanda} onCambiar={(v) => cambiar({ imprime_comanda: v })} />
       )}
 

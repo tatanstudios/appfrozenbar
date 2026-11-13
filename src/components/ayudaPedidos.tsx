@@ -9,7 +9,7 @@ const PASOS: { titulo: string; puntos: string[] }[] = [
     puntos: [
       'Toca «+ Nuevo pedido»: a nombre de quién (o elige un cliente registrado), su teléfono, el día y la hora de entrega y lo que encargó.',
       'Si deja un anticipo, escríbelo con su forma de pago: entra a la caja del turno abierto en ese momento.',
-      'En observaciones va lo que necesita el pastelero: «Feliz cumpleaños Ana», sabor, colores.',
+      'En observaciones va lo que necesita la cocina: «Sin azúcar», sabores, toppings.',
     ],
   },
   {
@@ -38,7 +38,7 @@ export function AyudaPedidos() {
   return (
     <ScrollView style={e.contenedor} contentContainerStyle={e.caja}>
       <Text style={e.texto}>
-        Un pedido especial es un <Text style={{ fontWeight: '700' }}>encargo para otro día</Text>: un pastel de cumpleaños, 200 panes para una reunión. Guarda quién lo pidió, cuándo se entrega y cuánto dejó de anticipo.
+        Un pedido especial es un <Text style={{ fontWeight: '700' }}>encargo para otro día</Text>: un catering de bobbas para un evento, 100 crepas para una reunión. Guarda quién lo pidió, cuándo se entrega y cuánto dejó de anticipo.
       </Text>
       {PASOS.map((p) => (
         <View key={p.titulo} style={e.tarjeta}>
