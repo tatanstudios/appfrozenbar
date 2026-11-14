@@ -13,7 +13,7 @@ export const C = {
   aviso: '#D97706',
   libre: '#0891B2',
   ocupada: '#DB2777',
-  marca: '#78350F',
+  marca: '#262022', // fondo del logo de The Frozen Bar
   marcaClaro: '#FEF3C7',
 };
 

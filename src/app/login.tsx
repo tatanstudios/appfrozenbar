@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Boton, Campo, Teclado } from '@/components/ui';
@@ -71,8 +71,10 @@ export default function Login() {
 
   return (
     <SafeAreaView style={e.pantalla}>
+      {/* El logo trae su fondo del mismo color que la pantalla (C.marca): se funde con ella */}
+      <Image source={require('../../assets/images/logo-negocio.png')} style={e.logo} resizeMode="contain"
+        accessibilityLabel="The Frozen Bar" />
       <View style={e.tarjeta}>
-        <Text style={e.marca}>The Frozen Bar</Text>
         <Text style={e.titulo}>Iniciar sesión</Text>
         {conPin ? (
           <>
@@ -123,8 +125,9 @@ export default function Login() {
 const e = StyleSheet.create({
   pantalla: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 16, backgroundColor: C.marca },
   tarjeta: { width: '100%', maxWidth: 420, backgroundColor: '#fff', borderRadius: 20, padding: 24, gap: 14 },
-  marca: { fontSize: 15, fontWeight: '700', color: C.marca, textAlign: 'center' },
-  titulo: { fontSize: 24, fontWeight: '700', color: C.texto, textAlign: 'center' },
+  // La imagen es cuadrada con el texto al centro: los márgenes negativos recortan el espacio vacío
+  logo: { width: 300, height: 300, maxWidth: '90%', marginTop: -80, marginBottom: -70 },
+  titulo: { fontSize: 24, fontWeight: '700', color: C.marca, textAlign: 'center' },
   error: { color: C.peligro, fontSize: 14, textAlign: 'center' },
   enlace: { color: C.primario, fontSize: 13, textAlign: 'center' },
   sub: { fontSize: 15, color: C.suave, textAlign: 'center' },

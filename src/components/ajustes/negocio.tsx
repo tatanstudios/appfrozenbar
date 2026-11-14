@@ -99,7 +99,7 @@ export function NegocioCajas() {
           <Text style={e.titulo}>Datos del negocio</Text>
           <Text style={e.suave}>Salen en el recibo del cliente. El logo se cambia en la web.</Text>
           <Campo etiqueta="Nombre comercial" value={negocio.nombre} onChangeText={(t) => cambiar({ nombre: t })} maxLength={200} placeholder="The Frozen Bar" />
-          <Campo etiqueta="Razón social (sale grande arriba del recibo)" value={negocio.razon_social ?? ''} onChangeText={(t) => cambiar({ razon_social: t || null })} maxLength={200} placeholder="FLAVIOS SAS DE CV" />
+          <Campo etiqueta="Razón social (sale grande arriba del recibo)" value={negocio.razon_social ?? ''} onChangeText={(t) => cambiar({ razon_social: t || null })} maxLength={200} placeholder="" />
           <View style={e.fila2}>
             <View style={{ flex: 1 }}><Campo etiqueta="NIT" value={negocio.nit ?? ''} onChangeText={(t) => cambiar({ nit: t || null })} maxLength={30} /></View>
             <View style={{ flex: 1 }}><Campo etiqueta="NRC" value={negocio.nrc ?? ''} onChangeText={(t) => cambiar({ nrc: t || null })} maxLength={30} /></View>
