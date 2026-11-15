@@ -55,7 +55,6 @@ function TabletsImprimen({ hayDeTablet }: { hayDeTablet: boolean }) {
         <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
           <Boton titulo="¿Cómo funciona?" chico variante="contorno" onPress={() => setAyuda(true)} />
           <Boton titulo="Impresiones con error" chico variante="contorno" onPress={() => setVerErrores(true)} />
-          {disponible && <Boton titulo="Revisar la cola ahora" chico variante="contorno" onPress={() => procesarCola()} />}
         </View>
       </View>
       <AyudaTabletsImprimen visible={ayuda} onCerrar={() => setAyuda(false)} />

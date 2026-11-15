@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "The Frozen Bar · Admin",
+    "name": "Frozen Bar Control",
     "slug": "appfrozenbar",
     "version": "1.0.2",
     "orientation": "default",
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.tatanstudios.thefrozenbarcontrol",
+      "package": "com.tatanstudios.frozenbarcontrol",
       "versionCode": 2
     },
     "web": {
@@ -42,6 +42,14 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "updates": {
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "requestHeaders": {
+        "expo-channel-name": "preview"
+      },
+      "url": "https://u.expo.dev/6ecb2f01-4d33-40dc-ba38-929ff0e327c7"
     },
     "extra": {
       "router": {

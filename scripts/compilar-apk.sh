@@ -3,18 +3,34 @@
 #   bash scripts/compilar-apk.sh                                → producción (servidor de .env.production)
 #   bash scripts/compilar-apk.sh pruebas                        → pruebas: pregunta el servidor al iniciar sesión
 #   bash scripts/compilar-apk.sh pruebas http://192.168.1.50    → pruebas con ese servidor fijo
+#   bash scripts/compilar-apk.sh play                           → AAB de producción para Google Play,
+#                                                                 firmado con la llave de subida
+#
+# Canales de actualizaciones OTA (EAS Update):
+#   APK normal de uso ("produccion") → canal "preview": aquí se prueba cada actualización primero.
+#   AAB de Google Play ("play")      → canal "production": solo recibe lo que se republica desde preview:
+#     npx eas-cli@latest update --channel preview --environment preview --message "..."
+#     npx eas-cli@latest update:republish --group <Update group ID> --destination-channel production
+#
+# La llave de subida de Google Play vive FUERA del proyecto (no va a git):
+#   ~/.android-keys/frozenbarcontrol-upload.jks + frozenbarcontrol-upload.properties
+# Para cambiar su contraseña: bash scripts/cambiar-clave-llave-play.sh
+# Si se pierde, hay que pedir a Google un cambio de llave de subida (Play Console → Integridad de la app).
+# El APK de "produccion" sigue firmado con la llave de prueba de Expo (para instalar a mano).
 #
 # La de pruebas es otra app («… (Pruebas)», paquete .pruebas): se instala junto a la de producción
 # sin reemplazarla, acepta http:// (Laragon en la red local) y no recibe actualizaciones OTA.
 # Ver app.config.js.
 #
-# Antes de una versión nueva de producción, sube "versionCode" en app.json (3 → 4…) para que la
-# tablet la acepte encima de la anterior.
+# Antes de una versión nueva de producción o de Play, sube "versionCode" en app.json (3 → 4…) para
+# que la tablet (o Google Play) la acepte encima de la anterior. "version" (1.0.1) solo se cambia
+# cuando cambia algo nativo: los builds con la misma "version" reciben las mismas OTA.
 #
 # Por qué compila en C:\fb (pruebas en C:\fp): Windows limita las rutas a 260 caracteres y las
 # librerías nativas (reanimated, gesture-handler) generan rutas más largas dentro de la carpeta del
 # proyecto. El proyecto se copia ahí (solo lo que cambió) y el resultado se deja en apk/. Cada
-# variante tiene su copia para que el cambio de paquete no mezcle compilaciones.
+# variante tiene su copia para que el cambio de paquete no mezcle compilaciones ("play" comparte la
+# de producción: mismo paquete; solo cambian la firma y el canal).
 #
 # OJO: C:\pa, C:\pp, C:/c y C:/cp son de panadería; este script no debe usarlas nunca.
 set -euo pipefail
@@ -24,12 +40,19 @@ SERVIDOR_PRUEBAS="${2:-}"
 case "$VARIANTE" in
   produccion)
     COPIA="/c/fb"; COPIA_WIN="C:\\fb"; STAGING="C:/fc"; NOMBRE="Meseros" ;;
+  play)
+    COPIA="/c/fb"; COPIA_WIN="C:\\fb"; STAGING="C:/fc"; NOMBRE="Control"
+    export APP_CANAL=production ;;
   pruebas)
     COPIA="/c/fp"; COPIA_WIN="C:\\fp"; STAGING="C:/fq"; NOMBRE="Pruebas"
     export APP_VARIANTE=pruebas ;;
   *)
-    echo "Variante desconocida: $VARIANTE (usa: produccion | pruebas [servidor])"; exit 1 ;;
+    echo "Variante desconocida: $VARIANTE (usa: produccion | play | pruebas [servidor])"; exit 1 ;;
 esac
+FIRMA_PLAY="$(cygpath -m "$HOME")/.android-keys/frozenbarcontrol-upload.properties"
+if [ "$VARIANTE" = play ] && [ ! -f "$FIRMA_PLAY" ]; then
+  echo "Falta la llave de subida de Google Play: $FIRMA_PLAY"; exit 1
+fi
 
 cd "$(dirname "$0")/.."
 # La carpeta del proyecto se toma de donde está el script (si se mueve, sigue funcionando)
@@ -78,13 +101,32 @@ else
   sed -i '/^android {/a\    externalNativeBuild {\n        cmake {\n            buildStagingDirectory = file("'"$STAGING"'")\n        }\n    }' app/build.gradle
 fi
 
+# Firma: "play" usa la llave de subida (leída del .properties de fuera del proyecto); las demás, la
+# de prueba de Expo. android/ se reutiliza entre compilaciones, así que se ajusta en ambos sentidos.
+if ! grep -q 'signingConfigs.upload\|upload {' app/build.gradle; then
+  sed -i '/^    signingConfigs {/a\        upload {\n            def f = new File("'"$FIRMA_PLAY"'")\n            if (f.exists()) {\n                def p = new Properties()\n                f.withInputStream { p.load(it) }\n                storeFile file(p["storeFile"])\n                storePassword p["storePassword"]\n                keyAlias p["keyAlias"]\n                keyPassword p["keyPassword"]\n            }\n        }' app/build.gradle
+fi
+if [ "$VARIANTE" = play ]; then
+  sed -i '/^        release {/,/^        }/ s/signingConfig signingConfigs\.debug/signingConfig signingConfigs.upload/' app/build.gradle
+else
+  sed -i '/^        release {/,/^        }/ s/signingConfig signingConfigs\.upload/signingConfig signingConfigs.debug/' app/build.gradle
+fi
+
 echo "== 3/4 Compilando (Gradle)"
-./gradlew assembleRelease -PreactNativeArchitectures=armeabi-v7a,arm64-v8a \
+if [ "$VARIANTE" = play ]; then TAREA=bundleRelease; else TAREA=assembleRelease; fi
+./gradlew $TAREA -PreactNativeArchitectures=armeabi-v7a,arm64-v8a \
   "-Porg.gradle.java.installations.paths=$JDK17" -Porg.gradle.java.installations.auto-download=false \
   --no-daemon --console=plain -q
 
-echo "== 4/4 Copiando el APK"
-DESTINO="$PROYECTO/apk/TheFrozenBar-$NOMBRE-v$VERSION.apk"
-mkdir -p "$(dirname "$DESTINO")"
-cp app/build/outputs/apk/release/app-release.apk "$DESTINO"
+if [ "$VARIANTE" = play ]; then
+  echo "== 4/4 Copiando el AAB"
+  DESTINO="$PROYECTO/apk/TheFrozenBarControl-v$VERSION.aab"
+  mkdir -p "$(dirname "$DESTINO")"
+  cp app/build/outputs/bundle/release/app-release.aab "$DESTINO"
+else
+  echo "== 4/4 Copiando el APK"
+  DESTINO="$PROYECTO/apk/TheFrozenBar-$NOMBRE-v$VERSION.apk"
+  mkdir -p "$(dirname "$DESTINO")"
+  cp app/build/outputs/apk/release/app-release.apk "$DESTINO"
+fi
 echo "Listo: $DESTINO ($(du -h "$DESTINO" | cut -f1))"

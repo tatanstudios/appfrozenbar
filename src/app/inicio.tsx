@@ -1,4 +1,5 @@
 import { Href, router, useFocusEffect } from 'expo-router';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +12,8 @@ import { getTurnoActual } from '@/lib/servicios';
 import { confirmar } from '@/lib/aviso';
 import { useConexion } from '@/lib/conexion';
 import { useSesion } from '@/lib/sesion';
+
+const KEEP_AWAKE = 'menu-inicio';
 
 interface Modulo { titulo: string; detalle: string; ruta: Href; color: string; permisos: string[]; sinTurno?: boolean }
 
@@ -40,6 +43,13 @@ export default function Inicio() {
   const [turno, setTurno] = useState<{ caja: string; de: string | null; mio: boolean; ajeno: boolean } | null>(null);
   const [saliendo, setSaliendo] = useState(false);
   const [miPin, setMiPin] = useState(false);
+
+  // Mientras el menú está en pantalla la tablet no se apaga ni se bloquea por inactividad.
+  // Con el foco (no al montar): al entrar a otro módulo el menú sigue montado detrás
+  useFocusEffect(useCallback(() => {
+    activateKeepAwakeAsync(KEEP_AWAKE).catch(() => null);
+    return () => { deactivateKeepAwake(KEEP_AWAKE).catch(() => null); };
+  }, []));
 
   useFocusEffect(useCallback(() => {
     if (!cajaId) return;
